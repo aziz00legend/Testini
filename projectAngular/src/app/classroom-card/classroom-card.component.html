@@ -1,0 +1,80 @@
+<div class="general" *ngIf="!createMode">
+    <div class="card">
+        <div class="card-title" [ngStyle]="{ 'background-color': titleColor }">
+            <div class="card-name">{{ title }}</div>
+            <i class="card-edit pi pi-pen-to-square" (click)="showDialog($event)"></i>
+            <i class="card-edit pi pi-times-circle" (click)="onConfirmDelete($event)"></i>
+
+        </div>
+        <div class="card-content">
+            <div class="info-section">
+                <div class="info-item">
+                    <i class="pi pi-users"></i> <!-- People icon -->
+                    <span>{{ studentCount }}</span> <!-- Number of students -->
+                </div>
+                <div class="info-item">
+                    <i class="pi pi-book"></i> <!-- Books icon -->
+                    <span>{{ assignmentCount }}</span> <!-- Number of assignments -->
+                </div>
+                <div class="info-item">
+                    <span>Created:</span>
+                    <span>{{ creationDate | date:'yyyy-MM-dd'}}</span> <!-- Date of creation -->
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 0;">
+
+            <div class="test-info">
+                <span style="font-weight: bold;">Next Test:</span>
+                <span class="test-date">{{ nextTestDate ? (nextTestDate | date:'yyyy-MM-dd') : '--------' }}</span>
+                <!-- Date of creation -->
+
+
+            </div>
+            <div class="test-title" [ngStyle]="{ 'color': titleColor }">
+                {{ testTitle ? testTitle : 'No futur tests are scheduled' }}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<p-dialog [header]="dialogTitle" (click)="stopEvent($event)" [modal]="true" [(visible)]="visible"
+    (onHide)="reversedSave()" [style]="{ width: '25rem', backgroundColor: selectedColor }">
+
+    <!-- Classroom Title Input -->
+    <div class="flex align-items-center gap-3 mb-5">
+        <label for="classroomTitle" class="font-semibold w-6rem">Classroom Title</label>
+        <input pInputText id="classroomTitle" class="flex-auto" [(ngModel)]="classroomTitle" autocomplete="off" />
+    </div>
+
+    <!-- Horizontal Color Selection -->
+    <div class="flex align-items-center gap-2 mb-5">
+        <label class="font-semibold w-6rem">Choose Color</label>
+        <div class="flex gap-2 overflow-auto" style="white-space: nowrap;">
+            <div *ngFor="let color of colorOptions" class="color-circle" [ngStyle]="{ backgroundColor: color }"
+                (click)="selectColor(color)" [class.selected]="color === selectedColor">
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-content-end gap-2">
+        <p-button label="Cancel" severity="secondary" (onClick)="visible = false" (onClick)="reversedSave()"></p-button>
+        <p-button label="Save" (onClick)="saveChanges()"></p-button>
+    </div>
+</p-dialog>
+
+
+
+<p-toast></p-toast>
+
+
+
+
+<!-- Confirmation Dialog -->
+<p-confirmDialog (click)="stopEvent($event)" header="Confirm" icon="pi pi-exclamation-triangle" [acceptLabel]="'Yes'"
+    [rejectLabel]="'No'" (accept)="onDeleteClassroom()" (reject)="onRejectDelete()"></p-confirmDialog>
+
+<!-- The delete icon button -->

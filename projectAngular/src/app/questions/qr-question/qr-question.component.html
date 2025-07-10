@@ -1,0 +1,40 @@
+<ng-container [ngSwitch]="mode">
+    <!-- Mode: View -->
+    <div *ngSwitchCase="'view'" class="container mode-view">
+        <h3 class="question-text"><strong>Q: </strong>{{ QADataView.data.text }}</h3>
+        <p class="question-description"><strong>Description: </strong>{{ QADataView.data.description }}</p>
+        <span>
+            <textarea pInputText placeholder="Enter your answer" [(ngModel)]="question.data.description"
+                class="description-input-view"></textarea>
+        </span>
+    </div>
+    <!-- Mode: Creation -->
+    <div *ngSwitchCase="'creation'" class="container mode-creation">
+        <div class="p-toolbar-group-start  question-container">
+            <div for="questionText">Question:</div>
+            <span class="p-input-icon-left">
+                <textarea id="questionText" [(ngModel)]="question.data.text"
+                    (ngModelChange)="updateQuestionText($event)" placeholder="Enter your question here..."></textarea>
+            </span>
+
+
+            <div for="description">Description:</div>
+            <span class="p-input-icon-left">
+                <textarea id="description" [(ngModel)]="question.data.description"
+                    (ngModelChange)="updateDescription($event)" placeholder="Enter a brief description..."></textarea>
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Mode: Ask -->
+    <div *ngSwitchCase="'ask'" class="container mode-ask" [ngClass]="template">
+        <p class="question-text"><strong>Q{{QADataView.number}}: </strong>{{ questionData.data.text }}</p>
+        <p class="question-description">
+            <strong *ngIf="questionData.data.description != '' && questionData.data.description">Description: </strong>
+            {{ questionData.data.description }}
+        </p>
+        <textarea id="answer" [(ngModel)]="answer" placeholder="Write your answer here..."></textarea>
+    </div>
+</ng-container>

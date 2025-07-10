@@ -1,0 +1,90 @@
+<div class="quiz-body" [ngClass]="{'fullscreen': this.mode ==='ask'}">
+  <div class="start-container" *ngIf="quizState === 'start'">
+    <h1>Welcome to our Quiz</h1>
+    <button id="start-btn" (click)="startQuiz()">START</button>
+</div>
+
+<div class="quiz-container" *ngIf="quizState === 'quiz'">
+    <header>
+        <h1 class="quiz-title">Quincy Schrifts</h1>
+        <div class="right-side">
+            <div class="timer">
+                <span>time left</span>
+                <span id="count" [ngClass]="{'blink': ((!questionAnswered  && this.mode === 'view') && this.answers[this.currentQuestionIndex].timer <= 5) ,
+                                             'timer-red': this.answers[this.currentQuestionIndex].timer === 0}"
+                >{{ this.answers[this.currentQuestionIndex].timer }}</span>
+            </div>
+            <button 
+              id="results-btn" 
+              *ngIf="isQuizFinished" 
+              (click)="seeResults()">Results</button>
+        </div>
+    </header>
+    <section class="main">
+      <h1 class="question">{{ currentQuestionIndex + 1 }}. {{ quiz.questions[currentQuestionIndex].text }}</h1>
+      <ul class="choices">
+          <li 
+              class="choice" 
+              *ngFor="let option of quiz.questions[currentQuestionIndex].options"
+              [ngClass]="{
+                'true': (questionAnswered || this.mode === 'view') && isCorrect(option),
+                'false': (questionAnswered || this.mode === 'view') && answers[currentQuestionIndex].chosenAnswer === option && !isCorrect(option),
+                'disabled': questionAnswered
+              }"
+              (click)="selectAnswer(option)">
+              {{ option }}
+          </li>
+      </ul>
+    </section>
+    <footer>
+      <div 
+        class="previous" 
+        (click)="showResult(currentQuestionIndex - 1)" 
+        *ngIf="isQuizFinished && currentQuestionIndex > 0"
+        [style.visibility]="currentQuestionIndex > 0 ? 'visible' : 'hidden'">
+        <img src="../../assets/previous.png" alt="previous">
+      </div>
+        <ul class="question-tracker" [ngClass]="{'center': isQuizFinished}">
+          <li 
+              class="q-tracker" 
+              *ngFor="let answer of answers; let index = index" 
+              [ngClass]="{
+                'true': answer.chosenAnswer && answer.isCorrect,
+                'false': (answer.chosenAnswer || answer.timer === 0) && !answer.isCorrect,
+                'current': index === currentQuestionIndex && !questionAnswered && !isQuizFinished,
+                'highlight': index === currentQuestionIndex && isQuizFinished
+              }"
+              (click)="showResult(index)">
+              <img 
+                  *ngIf="answer.chosenAnswer || answer.timer === 0" 
+                  [src]="answer.isCorrect ? '../../assets/true icon3.png' : '../../assets/false icon.png'" 
+                  [alt]="answer.isCorrect ? 'True' : 'False'" 
+              />
+          </li>
+      </ul>
+      
+      <div 
+        class="next" 
+        (click)="showResult(currentQuestionIndex + 1)" 
+        *ngIf="isQuizFinished && currentQuestionIndex < (quiz.questions.length - 1)" 
+        [style.visibility]="currentQuestionIndex < (quiz.questions.length - 1) ? 'visible' : 'hidden'">
+        <img src="../../assets/next.png" alt="next">
+      </div>
+        <button 
+            class="next-question" 
+            *ngIf="!isQuizFinished"
+            (click)="displayNextQuestion()"
+            [ngClass]="{'disabled': !questionAnswered}" 
+            >Next Question</button>
+    </footer>
+</div>
+
+<div class="finish-container" *ngIf="quizState === 'finish'">
+    <h1>Your score</h1>
+    <h2><span [ngClass]="getScoreClass()">{{calculateScore()}} </span>/ {{ totalScore }}</h2>
+    <div class="finish-btns">
+        <button id="results-btn" (click)="checkAnswers()">Check Answers</button>
+    </div>
+</div>
+  </div>
+  

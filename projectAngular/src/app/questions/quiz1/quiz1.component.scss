@@ -1,0 +1,331 @@
+/*
+.mode-view.question-template{
+    width: 200px;
+    height: 100px;
+    background-color: blueviolet;
+    color: chocolate;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}*/
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+
+  .mode-view.container {
+    width: 200px;
+    border: 1px solid black;
+    padding: 5px;
+  }
+
+  .mode-creation.container {
+    width: 100%;
+    padding: 8px 20px;
+    background-color: transparent;
+  }
+
+  .mode-ask.container{
+    padding: 20px 30px;
+    background-color: transparent;
+    width: 100%;
+  }
+
+  .mode-view .question-text {
+    font-size: 0.8rem; /* Default font size */
+  }
+
+  .mode-view .question-description{
+    font-size: 0.6rem;
+    font-style: italic;
+    white-space: pre-line;
+  }
+  .mode-ask .question-text {
+    font-size: 1.2rem; /* Default font size */
+    margin-bottom: 10px;
+  }
+  
+  .mode-ask p{
+    text-align: start;
+  }
+
+  .mode-view .radio-group {
+    font-size: 0.8rem; /* Smaller font size for view mode */
+  }
+  .mode-ask .radio-group {
+    font-size: 1.2rem; /* Smaller font size for view mode */
+    gap: 5px;
+  }
+
+
+  .mode-view .radio-group input[type="radio"]:disabled {
+    opacity: 0.5; /* Makes the radio buttons look grayed out */
+    cursor: not-allowed; /* Changes the cursor to indicate they are not clickable */
+  }
+
+
+  .mode-creation .question-text,
+  .mode-creation ul {
+    font-size: 1rem; /* Normal font size for creation mode */
+  }
+
+  .mode-creation .options-container {
+    margin-top: 5px;
+    position: relative;
+    width: 100%;
+  }
+
+  ::ng-deep .mode-creation .add-option-btn{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+
+  ::ng-deep .mode-creation .add-option-btn > button{
+    width: 100%;
+  }
+
+  .mode-creation .question-container{
+    display: grid;
+    grid-template-columns: auto 1fr; /* Creates 2 equal-width columns */
+    grid-template-rows: auto;    /* Creates 2 equal-height rows */
+    gap: 10px;
+    align-items: start;
+    justify-items: start;
+    width: 100%;
+  }
+
+  .mode-creation .move-icons {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mode-creation .pi-chevron-up,
+  .mode-creation .pi-chevron-down {
+      font-size: 13px; /* Adjust icon size */
+      font-weight: 500;
+      cursor: pointer;
+      color: #007ad9; /* Use the desired color */
+  }
+  
+  .mode-creation .invisible {
+    opacity: 0;           /* Make arrow invisible */
+    pointer-events: none;  /* Prevent clicks on invisible arrows */
+  }
+
+  .mode-creation .question-container input,
+  .mode-creation .options-container input{
+    padding: 5px 10px;
+  }
+  .mode-creation .question-container input{
+    width: 100%;
+  }
+  .mode-creation .options-container input{
+    flex-grow: 1;
+  }
+  .mode-creation .question-container span{
+    width: 100%;
+  }
+
+  .mode-creation .question-container label{
+    display: flex;
+  }
+  
+  .mode-creation .question-container > div{
+    font-size: 1.2rem;
+  }
+  
+  .mode-creation p{
+    font-size: 1.2rem;
+  }
+
+  .mode-creation .options-container > div{
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 5px;
+    align-items: center;
+
+  }
+
+  .mode-creation .options-container span{
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+  }
+
+  .mode-creation textarea{
+    width: 100% !important;  /* Full width */
+    padding: 8px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    resize: vertical;  /* Allow the user to resize the textarea vertically */
+    min-height: 50px;  /* Adjust the minimum height */
+    field-sizing: content;
+}
+
+
+
+  .small-square-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto !important;       /* Adjust width as needed */
+    font-size: 14px;   /* Adjust icon size as needed */
+    background-color: transparent;  /* Background color of the square */
+    color: red;
+    border-radius: 4px; /* Optional: Rounded corners */
+    cursor: pointer;   /* Optional: Pointer cursor */
+    padding: 2px;
+}
+
+
+
+  
+  
+  
+
+  .mode-ask .question-text,
+  .mode-ask ul {
+    font-size: 1.2rem; /* Larger font size for ask mode */
+    margin-bottom: 2px;
+  }
+
+  .mode-ask ul{
+    margin-top: 20px;
+  }
+
+  .radio-group {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 0.8rem; /* Smaller font size for radio options */
+  }
+
+  input[type='radio'] {
+    margin-right: 5px;
+  }
+
+  .answer-text {
+    font-size: 0.8rem; /* Smaller font size for answer */
+  }
+
+  /**mode ask*/
+  /* Container for the quiz question */
+  .mode-ask p.question-description{
+    display: block;
+    text-align: justify !important;
+    font-size: smaller;
+    font-style: italic;
+    word-wrap: break-word;
+    margin-bottom: 10px;
+    white-space: pre-line;
+
+  }
+/*custom radio style*/
+/* Hide the default radio button */
+.container.mode-ask .custom-radio {
+  display: none;
+}
+
+/* Style for custom radio button */
+.container.mode-ask .custom-radio-button {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd; /* Default border color */
+  border-radius: 50%; /* Make it circular */
+  background-color: #fff; /* Default background */
+  vertical-align: middle;
+  position: relative;
+  transition: background-color 0.3s, border-color 0.3s;
+}
+
+/* Default color - Blue */
+.container.mode-ask .custom-radio-button {
+  border-color: #007bff; /* Blue border */
+  background-color: #fff; /* White background */
+  border-width: 2px;
+}
+
+/* Style when the radio button is selected */
+.container.mode-ask .custom-radio:checked + .custom-radio-button {
+  background-color: #007bff; /* Blue background when checked */
+  border-color: #007bff; /* Blue border when checked */
+}
+
+/* Style when hovering over the radio button */
+.container.mode-ask .custom-radio-button:hover {
+  border-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Style the text next to the radio button */
+.container.mode-ask .option-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.container.mode-ask .option-text {
+  font-size: 16px;
+  margin-left: 10px;
+}
+
+/* For selected state (inner circle to represent the selected state) */
+.container.mode-ask .custom-radio:checked + .custom-radio-button::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  background-color: #fff; /* Inner circle color when selected */
+  border-radius: 50%;
+}
+/*********************************************************************************************************/
+/* Sleek dark template*/
+/*
+.container.sleek-dark-template{
+  background: url(../../../assets/sleek-dark-template1.png);
+  background-size: 300px;
+}*/
+
+.container.sleek-dark-template {
+  font-family: 'Roboto', sans-serif; /* Primary font */
+}
+
+.container.sleek-dark-template .question-text {
+  font-weight: 700; /* Bold for titles */
+  color: #ffffff;
+}
+
+.container.sleek-dark-template{
+  color: white;
+}
+
+.container.sleek-dark-template p, .container.sleek-dark-template label {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5); /* Subtle shadow */
+}
+
+.container.sleek-dark-template .option-label:hover {
+  color: #F39C12; /* Highlight on hover */
+  cursor: pointer;
+}
+
+.container.sleek-dark-template.mode-ask .custom-radio-button{
+  border-color: #F39C12;
+  background-color: black;
+}
+/* Style when the radio button is selected */
+.container.sleek-dark-template.mode-ask .custom-radio:checked + .custom-radio-button {
+  background-color: #F39C12; /* Blue background when checked */
+  border-color: #F39C12; /* Blue border when checked */
+}
+
+/* Style when hovering over the radio button */
+.container.sleek-dark-template.mode-ask .custom-radio-button:hover {
+  border-color: #a5711c; /* Darker blue on hover */
+}

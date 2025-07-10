@@ -1,0 +1,114 @@
+.general {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.card {
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    transition: transform 1s;
+}
+
+.card-title {
+    background-color: #007bff;
+    /* Fixed blue color for title */
+    color: white;
+    padding: 10px;
+    font-size: 1.2em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.card-edit {
+    font-size: 20px;
+}
+
+.card-edit:hover {
+    color: gold;
+}
+
+.card-content {
+    padding: 0 8px;
+    /* Left and right padding for all inner content */
+}
+
+.info-section {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 8px;
+    /* Vertical margin only */
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+}
+
+.info-item i {
+    margin-right: 5px;
+}
+
+.info-item span:first-child {
+    font-size: 0.85em;
+    color: #666;
+}
+
+.test-info {
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 8px;
+}
+
+.test-title {
+    color: #007bff;
+    /* Match color to the title */
+    margin: 5px 8px;
+}
+
+
+
+
+
+
+
+
+
+
+.color-circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: border-color 0.2s;
+    display: inline-block;
+
+    &.selected {
+        border-color: #000;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+.p-toast {
+    z-index: 9999;
+    /* Ensure it appears above all other components */
+}

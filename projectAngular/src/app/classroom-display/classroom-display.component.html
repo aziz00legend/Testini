@@ -1,0 +1,48 @@
+<div class="classroom-display">
+    <h1>Classroom</h1>
+    <p-toolbar class="toolbar">
+        <div class="p-toolbar-group-start title-search">
+            <div>Search By Title</div>
+            <span class="p-input-icon-left">
+                <i class="pi pi-search"></i>
+                <input pInputText placeholder="Search" />
+            </span>
+        </div>
+        <div class="p-toolbar-group-center">
+            <div class="menu">
+                <div class="menu-item" *ngFor="let item of menuItems" [class.selected]="selectedItem === item"
+                    (click)="selectMenu(item)">
+                    {{ item }}
+                </div>
+            </div>
+        </div>
+        <div class="p-toolbar-group-end">
+            <p-button class="mr-2" (onClick)="triggerNewClassroom()">New Classroom</p-button>
+        </div>
+    </p-toolbar>
+
+    <div class="cards">
+        <!-- Loop through fetched classrooms and display each one -->
+        <app-classroom-card *ngFor="let classroom of classrooms" (click)="navigateTo(classroom.id)"
+            [id]="classroom.id" [title]="classroom.title" [titleColor]="classroom.titleColor"
+            [studentCount]="classroom.studentCount" [assignmentCount]="classroom.assignmentCount"
+            [creationDate]="classroom.creationDate" [nextTestDate]="classroom.nextTestDate"
+            [testTitle]="classroom.testTitle" (updateComplete)="onChildUpdate()">
+        </app-classroom-card>
+
+
+        <!-- this app card is only for show save diolgue after father send event to his son  "the show only p-diolgue not card " -->
+
+        <app-classroom-card *ngIf="showCreateDialog" [createMode]="true" (updateComplete)="onChildUpdate()"
+            (closeDialog)="closeCreateDialog()">
+        </app-classroom-card>
+
+
+    </div>
+
+</div>
+
+
+
+
+<p-toast></p-toast>

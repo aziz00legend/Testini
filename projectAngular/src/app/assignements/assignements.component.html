@@ -1,0 +1,73 @@
+<div class="assignements-display">
+  <h1>Assignements</h1>
+  <p-toolbar class="toolbar">
+    <div class="p-toolbar-group-start title-search">
+      <div>Search By :</div>
+      <div class="btn-container">
+        <p-selectButton class="select-btn" [options]="stateOptions" [(ngModel)]="value" optionLabel="label"
+          optionValue="value" />
+        <span class="p-input-icon-left">
+          <i class="pi pi-search"></i>
+          <input pInputText placeholder="Search" />
+        </span>
+      </div>
+    </div>
+    <div class="p-toolbar-group-end">
+      <div class="menu">
+        <div class="menu-item" *ngFor="let item of menuItems" [class.selected]="selectedItem === item"
+          (click)="selectMenu(item)">
+          {{ item }}
+        </div>
+      </div>
+    </div>
+
+  </p-toolbar>
+
+  <div class="flex justify-content-center mb-3">
+    <p-selectButton [multiple]="false" optionLabel="name" optionValue="class" />
+  </div>
+  
+  <!--display A-->
+  <p-table *ngIf="displayMode === 'A'" [value]="assignements" styleClass="p-datatable-sm" class="challenge-table">
+    <ng-template pTemplate="header">
+      <tr>
+        <th><span class="scroll-text">Completion</span></th>
+        <th>Title</th>
+        <th>Classroom</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </ng-template>
+  
+    <ng-template pTemplate="body" let-assignement let-rowIndex="rowIndex">
+      <tr>
+        <td>
+          <span [ngClass]="getCompletionColor(assignement)">{{ assignement.NbSubmissions }}</span>/{{ assignement.NbStudents }}
+        </td>
+        
+        <td>{{ assignement.title }}</td>
+        <td>{{ assignement.classroom}}</td>
+        <td>{{ assignement.deadline | date: 'yyyy-MM-dd' }}</td>
+        <td>
+          <p-tag
+            [value]="assignement.status"
+            [severity]="getStatusSeverity(assignement.status)"
+          ></p-tag>
+        </td>
+        <td class="action-container">
+            <div class="action-btn-container">
+                <p-button class="btn" severity="success"><i class="fa fa-eye"></i></p-button>
+                <p-button class="btn" severity="contrast"><i class="fa fa-list"></i></p-button>
+                <p-button class="btn" severity="danger"><i class="fa fa-trash"></i></p-button>
+            </div>
+            
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+
+
+
+
+</div>

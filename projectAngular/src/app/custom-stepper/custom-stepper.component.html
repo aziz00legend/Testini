@@ -1,0 +1,29 @@
+<div class="stepper-container">
+    <div *ngFor="let step of steps; let i = index" class="step" [ngClass]="{ active: currentStep === i, completed: currentStep > i }">
+      <!-- Step Circle and Title -->
+      <div class="step-item">
+        <div class="circle">
+          <span>{{ i + 1 }}</span>
+        </div>
+        <div class="content-container">
+            <div class="step-content">
+                <h3 class="'title">{{ step.title }}</h3>
+                <!-- Step Content with defined width and height -->
+                <div class="content-box" *ngIf="currentStep === i" [ngStyle]="{height: '150px', backgroundColor: '#f0f0f0' }">
+                  <div >{{ step.content }}</div>
+                </div>
+              </div>
+              <!-- Navigation Buttons below the content -->
+              <div *ngIf="currentStep === i" class="step-buttons">
+                  <p-button *ngIf="i > 0" (click)="prevStep()">Previous</p-button>
+                  <p-button *ngIf="i < steps.length - 1" (click)="nextStep()">Next</p-button>
+                  <p-button (click)="addStep(i)">Add Step</p-button>
+              </div>
+        </div>
+        
+        </div>
+  
+      
+    </div>
+  </div>
+  

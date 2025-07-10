@@ -1,0 +1,30 @@
+<p-treeTable [value]="files" [scrollable]="true" [tableStyle]="{'min-width':'50rem'}">
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let col of cols">
+                {{ col.header }}
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+        <tr [ttRow]="rowNode">
+            <td *ngFor="let col of cols">
+                <p-treeTableToggler *ngIf="col.field === 'name'" [rowNode]="rowNode"></p-treeTableToggler>
+                <span *ngIf="col.field !== 'name'" (click)="onCellClick(col.field, rowData)"
+                    [style.cursor]="rowData[col.field] !== '-' ? 'pointer' : 'default'"
+                    [style.color]="rowData[col.field] !== '-' ? 'blue' : 'inherit'">
+                    {{ rowData[col.field] }}
+                </span>
+                <span *ngIf="col.field === 'name'">{{ rowData[col.field] }}</span>
+            </td>
+        </tr>
+    </ng-template>
+</p-treeTable>
+
+<!-- Dialog -->
+<p-dialog [(visible)]="displayDialog" header="Student Details" [modal]="true" [closable]="true" [draggable]="false">
+    <div *ngIf="selectedId">
+        <p>Student ID: {{ selectedId }}</p>
+        <button pButton label="Close" (click)="displayDialog = false"></button>
+    </div>
+</p-dialog>

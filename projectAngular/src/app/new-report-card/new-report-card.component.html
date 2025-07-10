@@ -1,0 +1,94 @@
+<p-dialog header="Merge Sessions" [(visible)]="mergeSessionsDialog" [modal]="true" [style]="{ width: '50vw' }">
+    <div>
+        <div style="padding-bottom: 2vh;">
+            <label for="mergeTitle">Title:</label>
+            <input pInputText type="text" [(ngModel)]="mergeTitle" [style]="{ width: '100%' }"
+                placeholder="Enter Title" />
+        </div>
+        <p-autoComplete [(ngModel)]="selectedNames" [suggestions]="sessionSuggestions" [dropdown]="true"
+            multiple="multiple" (completeMethod)="search($event)" (ngModelChange)="onSessionSelected()"
+            [style]="{width: '100%'}" placeholder="Choose Names">
+        </p-autoComplete>
+
+        <div style="padding-bottom: 10vh;">
+            <p-dropdown [(ngModel)]="selectedOperation" [options]="operationOptions" placeholder="Select Operation"
+                [style]="{ width: '100%' }"></p-dropdown>
+        </div>
+
+        <div *ngIf="selectedOperation === OperationM.COEFS">
+            <label *ngFor="let session of selectedSessions" [attr.for]="session.title">
+                {{ session.title }} Coef:
+                <input pInputText type="number" [(ngModel)]="coefficients[session.title]" [attr.id]="session.title"
+                    [style]="{ width: '100%' }" placeholder="Enter Coefficient" />
+            </label>
+        </div>
+
+        <p-button label="Submit" (click)="saveMerge()"></p-button>
+    </div>
+</p-dialog>
+
+
+
+
+<div class="report-container">
+    <div class="header-section">
+        <p-breadcrumb [model]="breadcrumbItems"></p-breadcrumb>
+        <h2 class="subject-title">
+            <i class="pi pi-check-square"></i> {{classroomDTO.title}}
+        </h2>
+        <div class="btn-container">
+            <button pButton label="Merge Sessions" class="merge-session-button" style="margin: 10px 0;"
+                (click)="openMergeDialog()"></button>
+            <button pButton label="New Session" icon="pi pi-plus" class="new-session-button" style="margin: 10px 0;"
+                (click)="openNewSessionDialog()"></button>
+
+        </div>
+
+    </div>
+
+
+
+
+</div>
+
+
+
+
+<p-dialog header="New Session" [(visible)]="newSessionDialog" [modal]="true" [style]="{ width: '40vw' }">
+    <div class="p-fluid">
+        <div class="field">
+            <label for="sessionTitle">Title</label>
+            <input id="sessionTitle" type="text" pInputText [(ngModel)]="newSession.title"
+                placeholder="Enter session title">
+        </div>
+
+        <div class="field">
+            <label for="sessionCode">Session Code</label>
+            <input id="sessionCode" type="text" pInputText [(ngModel)]="newSession.sessionCode"
+                placeholder="Code for students">
+        </div>
+
+        <div class="field">
+            <label for="challenge">Challenge</label>
+            <p-autoComplete [(ngModel)]="selectedChallenge" [suggestions]="filteredChallenges"
+                (completeMethod)="filterChallenges($event)" field="title" [dropdown]="true"
+                placeholder="Search for a challenge">
+            </p-autoComplete>
+        </div>
+
+        <div class="field">
+            <label for="startTime">Start Time</label>
+            <input type="datetime-local" id="startTime" [(ngModel)]="newSession.startTime" class="p-inputtext">
+        </div>
+
+        <div class="field">
+            <label for="endTime">End Time</label>
+            <input type="datetime-local" id="endTime" [(ngModel)]="newSession.endTime" class="p-inputtext">
+        </div>
+
+        <p-button label="Create Session" (click)="saveNewSession()" class="merge-submit-button"></p-button>
+    </div>
+</p-dialog>
+
+
+<app-session-tree (SessionEmitter)="updateSessions($event)"></app-session-tree>

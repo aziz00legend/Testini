@@ -1,0 +1,185 @@
+<ng-container [ngSwitch]="mode">
+    <!-- Mode: View -->
+    <div class="container mode-view" *ngSwitchCase="'view'">
+        <p class="question-text">Q{{ number }}. {{ quizDataView.text }}</p>
+        <span class="question-description">{{ quizDataView.description }}</span>
+        <div class="radio-group">
+            <label *ngFor="let option of quizDataView.options">
+                <input type="radio" name="quizOption" disabled /> {{ option }}
+            </label>
+        </div>
+    </div>
+    <!-- Mode: Creation -->
+    <div class="container mode-creation" *ngSwitchCase="'creation'">
+        <div class="p-toolbar-group-start question-container">
+            <div>Question:</div>
+            <span class="p-input-icon-left">
+                <input pInputText placeholder="Search" type="text" [(ngModel)]="question.data.text"
+                    placeholder="Enter your question here" (ngModelChange)="updateQuestionText($event)"
+                    class="question-input" />
+            </span>
+            <div>Description:</div>
+            <span class="p-input-icon-left">
+                <textarea pInputText placeholder="Enter your description here" [(ngModel)]="question.data.description"
+                    (ngModelChange)="updateQuestionDescr($event)" class="description-input"></textarea>
+            </span>
+            <p>Options:</p>
+            <div class="options-container">
+                <div *ngFor="let option of question.data.options; let i = index;trackBy: trackByIndex">
+                    <div class="move-icons">
+                        <i class="pi pi-chevron-up" [ngClass]="i === 0 ? 'invisible' : ''" (click)="moveOptionUp(i)">
+                        </i>
+
+                        <!-- Down Arrow: invisible if it's the last option -->
+                        <i class="pi pi-chevron-down"
+                            [ngClass]="i === question.data.options.length - 1 ? 'invisible' : ''"
+                            (click)="moveOptionDown(i)">
+                        </i>
+                    </div>
+                    <span class="small-square-icon pi pi-times" (click)="removeOption(i)"></span>
+                    <input pInputText type="text" [(ngModel)]="question.data.options[i]"
+                        (ngModelChange)="updateOption(i, $event)" placeholder="Option {{ i + 1 }}"
+                        class="option-input" />
+                    <label>
+                        <input type="radio" name="correctOption" [value]="i"
+                            [(ngModel)]="question.data.correctAnswerIndex" />
+                        <span>Correct Answer</span>
+                    </label>
+                </div>
+            </div>
+            <div></div>
+            <p-button class="add-option-btn" (click)="addOption()">Add Option</p-button>
+        </div>
+
+
+    </div>
+
+    <!-- Mode: Ask -->
+    <div class="container mode-ask" [ngClass]="template" *ngSwitchCase="'ask'">
+        <p class="question-text">Q{{ questionData.number }}. {{ questionData.data.text }}</p>
+        <p class="question-description">{{ questionData.data.description }}</p>
+        <div class="radio-group">
+            <label *ngFor="let option of questionData.data.options; let i = index" class="option-label">
+                <input type="radio" name="quizOption" [value]="i" [(ngModel)]="selectedAnswer" class="custom-radio" />
+                <span class="custom-radio-button"></span>
+                <span class="option-text">{{ option }}</span>
+            </label>
+        </div>
+    </div>
+
+</ng-container>
+
+
+
+
+
+
+<!--
+  <ng-container [ngSwitch]="type">
+    <ng-container *ngSwitchCase="'Quiz'" [ngSwitch]="mode">
+        <div class="container mode-view" *ngSwitchCase="'view'">
+            <p class="question-text">{{ number }}. {{ quizDataView.text }}</p>
+            <span class="question-description">{{ quizDataView.description }}</span>
+            <div class="radio-group">
+                <label *ngFor="let option of quizDataView.options">
+                <input type="radio" name="quizOption" disabled/> {{ option }}
+                </label>
+            </div>
+        </div>
+        <div class="container mode-creation" *ngSwitchCase="'creation'">
+            <div class="p-toolbar-group-start question-container">
+                <div>Question:</div>
+                <span class="p-input-icon-left">
+                    <input pInputText 
+                    placeholder="Search" 
+                    type="text" 
+                    [(ngModel)]="question.data.text" 
+                    placeholder="Enter your question here" 
+                    (ngModelChange)="updateQuestionText($event)" 
+                    class="question-input"/>
+                </span>
+                <div>Description:</div>
+                <span class="p-input-icon-left">
+                    <textarea pInputText 
+                              placeholder="Enter your description here" 
+                              [(ngModel)]="question.data.description" 
+                              (ngModelChange)="updateQuestionDescr($event)" 
+                              class="description-input"></textarea>
+                </span>
+                <p>Options:</p>
+                <div class="options-container">
+                    <div *ngFor="let option of question.data.options; let i = index;trackBy: trackByIndex">
+                        <div class="move-icons">
+                            <i 
+                            class="pi pi-chevron-up" 
+                            [ngClass]="i === 0 ? 'invisible' : ''" 
+                            (click)="moveOptionUp(i)">
+                            </i>
+                            
+                            <i 
+                            class="pi pi-chevron-down" 
+                            [ngClass]="i === question.data.options.length - 1 ? 'invisible' : ''" 
+                            (click)="moveOptionDown(i)">
+                            </i>
+                        </div>
+                        <span class="small-square-icon pi pi-times"
+                            (click)="removeOption(i)"></span>
+                        <input pInputText
+                        type="text" 
+                        [(ngModel)]="question.data.options[i]" 
+                        (ngModelChange)="updateOption(i, $event)" 
+                        placeholder="Option {{ i + 1 }}" 
+                        class="option-input" />
+                        <label>
+                        <input 
+                            type="radio" 
+                            name="correctOption" 
+                            [value]="i" 
+                            [(ngModel)]="question.data.correctAnswerIndex" />
+                        <span>Correct Answer</span>
+                        </label>
+                    </div>
+                </div>
+                <div></div>
+                <p-button class="add-option-btn" (click)="addOption()">Add Option</p-button>
+            </div>
+        
+            
+        </div>
+  
+        <div class="container mode-ask" *ngSwitchCase="'ask'">
+            <p class="question-text">{{ questionData.number }}. {{ questionData.data.text }}</p>
+            <p class="question-description">{{ questionData.data.description }}</p>
+            <div class="radio-group">
+                <label *ngFor="let option of questionData.data.options; let i = index" class="option-label">
+                    <input 
+                        type="radio" 
+                        name="quizOption" 
+                        [value]="i" 
+                        [(ngModel)]="selectedAnswer" 
+                        class="custom-radio" />
+                    <span class="option-text">{{ option }}</span>
+                </label>
+            </div>
+        </div>
+        
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'Q/A'" [ngSwitch]="mode">
+        <div *ngSwitchCase="'view'" class="container mode-view">
+            <h3 class="question-text"><strong>Q: </strong>{{ QADataView.question }}</h3>
+            <p class="question-description"><strong>Description: </strong>{{ QADataView.description }}</p>
+            <span >
+                <textarea pInputText
+                        placeholder="Enter your answer"
+                        [(ngModel)]="question.data.description"
+                        class="description-input-view"></textarea>
+            </span>
+        </div>
+    </ng-container>
+
+    
+    <ng-container *ngSwitchDefault>
+      <p>Unknown question type.</p>
+    </ng-container>
+  </ng-container>-->

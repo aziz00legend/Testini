@@ -1,0 +1,402 @@
+.challenges-gallery {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+
+    h1 {
+        text-align: left;
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+
+    .filters {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        /* Add space between filter items */
+        flex-wrap: wrap;
+
+        .filter-item {
+            display: flex;
+            flex-direction: column;
+            margin: 10px 0;
+            /* Adjust margin to center items vertically */
+            flex: 1;
+            /* Flex-grow for equal width of items */
+
+            label {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            input,
+            p-dropdown,
+            p-checkbox {
+                width: 100%;
+            }
+
+            &.time-limited {
+                align-items: center;
+            }
+
+            .p-checkbox {
+                margin-top: 5px;
+            }
+        }
+
+        .sort-direction{
+            display: block;
+
+            .display-label{
+                margin: 5px;
+            }
+        }
+        
+        .display {
+            display: flex;
+            align-items: center;
+
+            p-radioButton {
+                margin: 0 5px;
+            }
+        }
+
+        .sort-direction {
+            margin-left: -10px;
+            /* Adjust the margin to better align with other elements */
+        }
+    }
+
+}
+
+
+.sort-direction .display-label{
+        margin: 5px;
+        text-align: center;
+}
+/****************** menu style *********************/
+*{
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.left-side{
+    gap: 10px;
+}
+.title-search{
+    display: block;
+}
+.title-search div{
+    margin: 5px;
+}
+
+.title-search input{
+    width: 140px;
+    padding: 5px 5px 5px 32px;
+}
+
+.type-dropdown div{
+    margin: 5px;
+}
+
+::ng-deep .type-dropdown .dropdown span.p-dropdown-label{
+    width: 60px;
+    padding: 5px;
+}
+
+::ng-deep .type-dropdown .dropdown .p-dropdown-trigger{
+    padding: 0px 5px;
+    width: fit-content;
+}
+
+.toolbar{
+    padding: 0px;
+}
+
+
+::ng-deep .p-toolbar{
+    padding: 5px 15px;
+} 
+
+.menu {
+    display: flex;                  /* Use flexbox for layout */
+    gap: 10px;                     /* Increased space between menu items */
+}
+
+.menu-item {
+    cursor: pointer;               /* Show pointer cursor on hover */
+    padding: 10px 20px;           /* Add horizontal padding for wider clickable area */
+    transition: color 0.3s;       /* Smooth transition for color */
+    border-bottom: 3px solid transparent; /* Bottom border for the underline effect */
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Change color on hover */
+.menu-item:hover {
+    color: black;                /* Change color on hover */
+    border-bottom: 3px solid black; /* Blue underline on hover */
+}
+
+/* Selected state */
+.menu-item.selected {
+    color: #0062ff;                /* Blue color for selected item */
+    border-bottom: 3px solid #0062ff; /* Blue underline for selected item */
+}
+
+
+/**/
+/* Container for alignment */
+.display-btn-container {
+    display: flex;
+    gap: 15px; /* Space between squares */
+  }
+  
+  /* Hide the default radio buttons */
+  ::ng-deep .display-btn-container p-radioButton {
+    display: none;
+  }
+  
+  /* Custom square style */
+  .custom-square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px; /* Square dimensions */
+    height: 40px;
+    border: 2px solid #ccc; /* Default border */
+    border-radius: 4px; /* Slight rounding */
+    background-color: #f9f9f9; /* Default background */
+    font-size: 18px; /* Text size */
+    font-weight: bold;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  /* Highlight square when selected */
+  .custom-square {
+    border-color: #007ad9; /* Highlight border color */
+    background-color: #e6f7ff; /* Highlight background color */
+    color: #005bb5; /* Highlight text color */
+  }
+  
+  /* Selected (active) square style */
+  .custom-square.selected {
+    background-color: #007ad9; /* Background color when selected */
+    color: white; /* Text color when selected */
+    border-color: #005bb5; /* Darker border color for selected */
+  }
+
+  /* Hover effect */
+  .custom-square.selected:hover {
+    border-color: #005bb5;
+    background-color: #f0f8ff;
+    color: #005bb5;
+  }
+
+  .custom-square:not(.selected):hover {
+    background-color: #007ad9; /* Background color when selected */
+    color: white; /* Text color when selected */
+    border-color: #005bb5; /* Darker border color for selected */
+  }
+  
+
+  /**************** table style *************/
+  .challenge-table th,.challenge-table td{
+    padding: 5px 0;
+    text-align: center;
+  }
+  .action-container{
+    display: flex;
+    justify-content: center;
+  }
+  .action-btn-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: fit-content;
+  }
+  .action-btn-container .top-row{
+    display: flex;
+    gap: 2px;
+  }
+  
+  ::ng-deep .action-btn-container .btn button{
+    width: 35px;
+    height: 35px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .action-btn-container .new-assign-btn{
+    width: 100% !important;
+  }
+
+  ::ng-deep .action-btn-container .new-assign-btn button{
+    width: 100%;
+    padding: 5px 5px;
+    font-size: 12px;
+  }
+
+  /*************** display B style ************/
+  .cards {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+}
+
+.card {
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: scale(1.05);
+    transition: transform 1s;
+}
+
+.card .card-title {
+    background-color: #f0f0f0;
+    /* Fixed blue color for title */
+    color: ccc;
+    padding: 10px;
+    font-size: 1em;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.card .card-name{
+    overflow: hidden;
+    flex-grow: 1;
+}
+
+.card .card-name p{
+    white-space: nowrap; /* Prevents wrapping to the next line */
+    margin: 0;
+}
+
+.card-name p.scrolling-text{
+    animation: scrollText 10s linear infinite;
+}
+
+@keyframes scrollText {
+    0% {
+      transform: translateX(100%); /* Start off-screen */
+    }
+    100% {
+      transform: translateX(-100%); /* Scroll completely off-screen */
+    }
+  }
+  
+
+.card .challenge-status{
+    flex-shrink: 0;
+}
+
+.card-content{
+    display: flex;   
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 10px;
+}
+
+.item-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.info-section{
+    flex-grow: 1;
+    text-align: center;
+}
+
+.info-item i{
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+  
+  
+
+/******************* style for display C *******************/
+.card-c {
+    width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid black;
+}
+
+
+.card-c:hover {
+    transform: scale(1.05);
+    transition: transform 1s;
+}
+
+.card-c .test-info{
+    margin-top: 5px;
+}
+
+.card-c .challenge-status{
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.card-c p{
+    margin: 4px 0px;
+    text-align: center;
+}
+
+::ng-deep .challenge-status .more button{
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .more i{
+    font-size: 14px;
+  }
+
+/* Default Template Box */
+.card-c.default-template {
+    background-color: #ffffff; /* White background */
+    color: #4b5563; /* Text color */
+    font-family: 'Poppins', sans-serif; /* Poppins font */
+  }
+
+  .card-c.default-template p{
+    margin: 0px;
+  }
+  
+  /* Sleek Dark Template Box */
+  .card-c.sleek-dark-template {
+    background-color: #1a1a1a; /* Dark background with dots */
+    color: white; /* Grayish text color */
+    font-family: 'Montserrat', sans-serif; /* Montserrat font */
+    background-image: url('../../assets/sleek-dark-template1.png'); /* Dark pattern background */
+    font-family: 'Roboto', sans-serif;
+    background-size: 300px;
+    font-weight: 700;
+  }

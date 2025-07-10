@@ -1,0 +1,56 @@
+.title-search{
+    display: block;
+}
+.title-search div{
+    margin: 5px;
+}
+
+.title-search input{
+    width: 140px;
+    padding: 5px 5px 5px 32px;
+}
+
+.toolbar{
+    padding: 0px;
+}
+
+
+::ng-deep .p-toolbar{
+    padding: 5px 15px;
+} 
+
+.menu {
+    display: flex;                  /* Use flexbox for layout */
+    gap: 40px;                     /* Increased space between menu items */
+}
+
+.menu-item {
+    cursor: pointer;               /* Show pointer cursor on hover */
+    padding: 10px 20px;           /* Add horizontal padding for wider clickable area */
+    transition: color 0.3s;       /* Smooth transition for color */
+    border-bottom: 3px solid transparent; /* Bottom border for the underline effect */
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Change color on hover */
+.menu-item:hover {
+    color: black;                /* Change color on hover */
+    border-bottom: 3px solid black; /* Blue underline on hover */
+}
+
+/* Selected state */
+.menu-item.selected {
+    color: #0062ff;                /* Blue color for selected item */
+    border-bottom: 3px solid #0062ff; /* Blue underline for selected item */
+}
+
+
+/********* cards **************/
+.cards {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 20px;
+
+}

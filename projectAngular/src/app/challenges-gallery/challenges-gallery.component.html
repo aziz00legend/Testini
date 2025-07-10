@@ -1,0 +1,223 @@
+<div class="challenges-gallery">
+    <h1>Challenges Gallery</h1>
+
+    <!--
+    <div class="filters">
+        <div class="filter-item">
+            <label for="search">Search By Name</label>
+            <input type="text" id="search" pInputText placeholder="Enter a value" />
+        </div>
+
+        <div class="filter-item">
+            <label for="type">Type</label>
+            <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType"></p-dropdown>
+        </div>
+
+        <div class="filter-item time-limited">
+            <label for="time-limited">Time limited</label>
+            <p-checkbox [(ngModel)]="isTimeLimited" binary="true"></p-checkbox>
+        </div>
+
+        <div class="filter-item">n
+            <label for="sort-by">Sort By</label>
+            <p-dropdown id="sort-by" [options]="sortOptions" [(ngModel)]="selectedSort"></p-dropdown>
+        </div>
+
+        <div class="filter-item displays">
+            <p-radioButton name="sortOrder" value="asc" [(ngModel)]="sortOrder" label="Asc"></p-radioButton>
+            <p-radioButton name="sortOrder" value="desc" [(ngModel)]="sortOrder" label="Desc"></p-radioButton>
+        </div>
+
+        <div class="sort-direction">
+            <label for="display">Display</label>
+            <p-radioButton name="displayMode" value="A"  label="A"></p-radioButton>
+            <p-radioButton name="displayMode" value="B"  label="B"></p-radioButton>
+            <p-radioButton name="displayMode" value="C"  label="C"></p-radioButton>
+        </div>
+    </div>-->
+
+    <p-toolbar class="toolbar">
+        <div class="p-toolbar-group-start left-side">
+            <div class="title-search">
+                <div>Search By Title</div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText placeholder="Search" />
+                </span>
+            </div>
+            <div class="type-dropdown">
+                <div>Select Type</div>
+                <p-dropdown class="dropdown" [options]="types" [(ngModel)]="selectedType" optionLabel="name"
+                    placeholder="All" />
+            </div>
+
+        </div>
+
+        <div class="p-toolbar-group-center">
+            <div class="menu">
+                <div class="menu-item" *ngFor="let item of menuItems" [class.selected]="selectedItem === item"
+                    (click)="selectMenu(item)">
+                    {{ item }}
+                </div>
+            </div>
+        </div>
+
+        <div class="p-toolbar-group-end">
+            <div class="sort-direction">
+                <div class="display-label">Display</div>
+                <div class="display-btn-container">
+                    <p-radioButton name="displayMode" value="A" inputId="optionA"
+                        [(ngModel)]="displayMode"></p-radioButton>
+                    <label for="optionA" class="custom-square" [class.selected]="displayMode === 'A'">A</label>
+
+                    <p-radioButton name="displayMode" value="B" inputId="optionB"
+                        [(ngModel)]="displayMode"></p-radioButton>
+                    <label for="optionB" class="custom-square" [class.selected]="displayMode === 'B'">B</label>
+
+                    <p-radioButton name="displayMode" value="C" inputId="optionC"
+                        [(ngModel)]="displayMode"></p-radioButton>
+                    <label for="optionC" class="custom-square" [class.selected]="displayMode === 'C'">C</label>
+                </div>
+
+
+            </div>
+        </div>
+    </p-toolbar>
+
+    <!--display A-->
+    <p-table *ngIf="displayMode === 'A'" [value]="challenges" styleClass="p-datatable-sm" class="challenge-table">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Title</th>
+                <th>N° Questions</th>
+                <th>Status</th>
+                <th>Last update</th>
+                <th>Actions</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-challenge let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ challenge.title }}</td>
+                <td>{{ challenge.numQuestions }}</td>
+                <td><p-tag [value]="challenge.status" [severity]="getStatusSeverity(challenge.status)" /></td>
+                <td>{{ challenge.creationDate }}</td>
+                <td class="action-container">
+                    <div class="action-btn-container">
+                        <div class="top-row">
+                            <p-button class="btn" severity="success"><i class="fa fa-eye"></i></p-button>
+                            <p-button class="btn" severity="contrast"><i class="fa fa-star"></i></p-button>
+                            <p-button class="btn" severity="danger"><i class="fa fa-trash"></i></p-button>
+                        </div>
+                        <div class="bottom-row">
+                            <p-button *ngIf="challenge.status == 'IN_PROGRESS'" class="new-assign-btn"
+                                severity="warning" label="Continu Editing"
+                                (click)="continuEditingChallenge(challenge.id)" />
+                            <p-button *ngIf="challenge.status == 'PUBLISHED'" class="new-assign-btn" severity="info"
+                                label="New assignment" />
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <!--display B-->
+    <div class="cards" *ngIf="displayMode === 'B'">
+        <div class="card" *ngFor="let challenge of challenges; let i = index">
+            <div class="card-title">
+                <div class="card-name">
+                    <p #scrollingContainer class="scrolling-div"
+                        [ngClass]="{'scrolling-text': checkIfElementNeedsToScroll(i)}">
+                        {{ challenge.title }}
+                    </p>
+                </div>
+                <div class="challenge-status">
+                    <p-tag [value]="challenge.status" [severity]="getStatusSeverity(challenge.status)" />
+                </div>
+            </div>
+
+            <div class="card-content">
+                <div class="info-section">
+                    <div class="item-container">
+                        <div class="info-item">
+                            <i class="pi pi-question"></i> <!-- question mark icon -->
+                            <span>{{ challenge.numQuestions }}</span> <!-- Number of students -->
+                        </div>
+                        <div class="info-item">
+                            <i class="pi pi-book"></i> <!-- Books icon -->
+                            <span>{{ challenge.numberOfUses }}</span> <!-- Number of assignments -->
+                        </div>
+                    </div>
+                    <hr style="border: 0; border-top: 1px solid #e0e0e0; margin: 0;">
+
+                    <div class="info-item">
+                        <div>Last Update:</div>
+                        <span>{{ challenge.creationDate | date:'yyyy-MM-dd'}}</span> <!-- Date of creation -->
+                    </div>
+                </div>
+
+
+                <div class="test-info">
+                    <div class="action-btn-container">
+                        <div class="top-row">
+                            <p-button class="btn" severity="success"><i class="fa fa-eye"></i></p-button>
+                            <p-button class="btn" severity="contrast"><i class="fa fa-star"></i></p-button>
+                            <p-button class="btn" severity="danger"><i class="fa fa-trash"></i></p-button>
+                        </div>
+                        <div class="bottom-row">
+                            <p-button *ngIf="challenge.status == 'IN_PROGRESS'" class="new-assign-btn"
+                                severity="warning" label="Continu Editing"
+                                (click)="continuEditingChallenge(challenge.id)" />
+                            <p-button *ngIf="challenge.status == 'PUBLISHED'" class="new-assign-btn" severity="info"
+                                label="New assignment" />
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--display C-->
+    <div class="cards" *ngIf="displayMode === 'C'">
+        <div class="card-c" [ngClass]="challenge.templateName" *ngFor="let challenge of challenges; let i = index">
+            <div class="card-name">
+                <p>
+                    {{ challenge.title }}
+                </p>
+            </div>
+            <div class="challenge-status">
+                <p-tag [value]="challenge.status" [severity]="getStatusSeverity(challenge.status)" />
+                <p-button class="more" severity="info" (click)="toggleMenu(i)">
+                    <i *ngIf="!isMenuOpen[i]" class="pi pi-ellipsis-v"></i>
+                    <i *ngIf="isMenuOpen[i]" class="pi pi-ellipsis-h"></i>
+                </p-button>
+            </div>
+            <div class="test-info" *ngIf="isMenuOpen[i]">
+                <div class="action-btn-container">
+                    <div class="top-row">
+                        <p-button class="btn" severity="success"><i class="fa fa-eye"></i></p-button>
+                        <p-button class="btn" severity="contrast"><i class="fa fa-star"></i></p-button>
+                        <p-button class="btn" severity="danger"><i class="fa fa-trash"></i></p-button>
+                    </div>
+                    <div class="bottom-row">
+                        <p-button *ngIf="challenge.status == 'IN_PROGRESS'" class="new-assign-btn" severity="warning"
+                            label="Continu Editing" (click)="continuEditingChallenge(challenge.id)" />
+                        <p-button *ngIf="challenge.status == 'PUBLISHED'" class="new-assign-btn" severity="info"
+                            label="New assignment" />
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+</div>

@@ -1,0 +1,131 @@
+.toolbar{
+    padding: 0px;
+}
+
+.title-search{
+    display: block;
+}
+.title-search div{
+    margin: 5px;
+}
+
+.title-search input{
+    width: 140px;
+    padding: 5px 5px 5px 32px;
+}
+
+::ng-deep .p-ripple{
+    padding: 5px;
+}
+
+.title-search > div.btn-container > span{
+    margin-left: 10px;
+}
+.btn-container{
+    display: flex;
+
+}
+
+::ng-deep .p-toolbar{
+    padding: 5px 15px;
+} 
+
+.menu {
+    display: flex;                  /* Use flexbox for layout */
+    gap: 40px;                     /* Increased space between menu items */
+}
+
+.menu-item {
+    cursor: pointer;               /* Show pointer cursor on hover */
+    padding: 10px 20px;           /* Add horizontal padding for wider clickable area */
+    transition: color 0.3s;       /* Smooth transition for color */
+    border-bottom: 3px solid transparent; /* Bottom border for the underline effect */
+    color: rgba(0, 0, 0, 0.5);
+}
+
+/* Change color on hover */
+.menu-item:hover {
+    color: black;                /* Change color on hover */
+    border-bottom: 3px solid black; /* Blue underline on hover */
+}
+
+/* Selected state */
+.menu-item.selected {
+    color: #0062ff;                /* Blue color for selected item */
+    border-bottom: 3px solid #0062ff; /* Blue underline for selected item */
+}
+
+/************ completion column style *************/
+/* Emphasize the "Completion" column */
+
+tr > td:first-child {
+    width: 20px !important;
+    font-family: 'Courier New', Courier, monospace;  /* Numeric font */
+    font-weight: bold;
+    position: relative;
+  }
+
+  /* Create a gradient border using the ::after pseudo-element */
+tr > td:first-child::after,th:first-child::after {
+    content: '';  /* Required for the pseudo-element */
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 1px;  /* Set the width of the "border" */
+    background: linear-gradient(to top, transparent 10%, #ddd 10%, #ddd 80%, transparent 90%);
+    /* Gradient that starts transparent at 10% and ends transparent at 90%, with a solid color in the middle */
+  }
+
+  th:first-child {
+    width: 70px !important;  /* Set a fixed width for the header */
+    font-family: 'Courier New', Courier, monospace;  /* Numeric font */
+    text-align: center;  /* Center the text */
+    white-space: nowrap;  /* Prevent text wrapping */
+    overflow: hidden;  /* Hide the overflowed text */
+    position: relative;  /* Enable positioning for scrolling */
+  }
+  
+  /* Add auto-scrolling effect to the text inside the header */
+  th:first-child .scroll-text {
+    display: inline-block;  /* Make the span behave like a block element */
+    white-space: nowrap;  /* Prevent the text from wrapping */
+    animation: scrollText 10s linear infinite;  /* Adjust duration for scroll speed */
+  }
+  
+  
+  /* Keyframes for auto-scrolling */
+  @keyframes scrollText {
+    0% {
+      transform: translateX(100%);  /* Start from the right */
+    }
+    100% {
+      transform: translateX(-100%);  /* Scroll to the left */
+    }
+  }
+  
+
+  
+  
+  
+  /* Red for 0-33% completion */
+  .completion-red {
+    color: red;
+    font-weight: bold;
+  }
+  
+  /* Orange for 34-66% completion */
+  .completion-orange {
+    color: orange;
+    font-weight: bold;
+  }
+  
+  /* Green for 67-100% completion */
+  .completion-green {
+    color: green;
+    font-weight: bold;
+  }
+  
+  ::ng-deep .action-btn-container .p-ripple{
+    margin-right: 5px;
+  }

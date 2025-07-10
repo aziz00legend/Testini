@@ -1,0 +1,53 @@
+<div class="sidebar" [ngClass]="{'collapsed': !isExpanded}">
+    <div class="logo">
+        <!-- Replace with your logo image or text -->
+        <img src="../../assets/menu.png" id="menu" alt="menu" (click)="toggleSidebar()">
+        <img src="../../assets/Logo.png" id="logo-img" alt="Logo page">
+    </div>
+
+    <ul class="nav-list">
+        <li>
+            <a routerLink="/home">
+                <img src="../../assets/profile.png" alt="menu">
+                <p>Profile</p>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': isActive('/inside/home') }">
+            <a routerLink="/inside/home">
+                <img src="../../assets/home.png" alt="menu">
+                <p>Home</p>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': isActive('/inside/template') }">
+            <a href="/inside/template">
+                <img src="../../assets/template.png" alt="menu">
+                <p>Templates</p>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': isActive('/inside/challenges') }">
+            <a href="inside/challenges">
+                <img src="../../assets/chalange.png" alt="menu">
+                <p>Your challenges</p>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': isActive('/inside/assignements') }">
+            <a href="inside/assignements">
+                <img src="../../assets/book.png" alt="menu">
+                <p>Assignments</p>
+            </a>
+        </li>
+        <li [ngClass]="{ 'active': isActive('/inside/classroom') }">
+            <a href="inside/classroom">
+                <img src="../../assets/materiel.png" alt="menu">
+                <p>Materia</p>
+            </a>
+        </li>
+        
+        <li class="magnifier">
+            <a (click)="showMagnifierInstructions()" class="magnifier-button">
+                <i class="pi pi-search"></i>
+                <p>Magnifier</p>
+            </a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,87 @@
+<p-dialog header="Merge Sessions" [(visible)]="mergeSessionsDialog" [modal]="true" [style]="{ width: '50vw' }">
+    <div>
+        <div style="padding-bottom: 2vh;">
+            <label for="mergeTitle">Title:</label>
+            <input pInputText type="text" [(ngModel)]="mergeTitle" [style]="{ width: '100%' }"
+                placeholder="Enter Title" />
+        </div>
+        <p-autoComplete [(ngModel)]="selectedNames" [suggestions]="sessionSuggestions" [dropdown]="true"
+            multiple="multiple" (completeMethod)="search($event)" (ngModelChange)="onSessionSelected()"
+            [style]="{width: '100%'}" placeholder="Choose Names">
+        </p-autoComplete>
+
+
+
+        <div style="padding-bottom: 10vh ;">
+            <p-dropdown [(ngModel)]="selectedOperation" [options]="operationOptions" placeholder="Select Operation"
+                [style]="{ width: '100%'  }"></p-dropdown>
+        </div>
+
+
+
+
+
+
+
+        <div *ngIf="selectedOperation === 'Coef Special'">
+            <label *ngFor="let session of selectedSessions" [attr.for]="session.title">
+                {{ session.title }} Coef:
+                <input pInputText type="number" [(ngModel)]="coefficients[session.title]" [attr.id]="session.title"
+                    [style]="{ width: '100%' }" placeholder="Enter Coefficient" />
+
+
+            </label>
+        </div>
+
+        <p-button label="Submit" (click)="logSelectedOptions()"></p-button>
+    </div>
+</p-dialog>
+
+
+
+<div class="report-container">
+    <div class="header-section">
+        <p-breadcrumb [model]="breadcrumbItems"></p-breadcrumb>
+        <h2 class="subject-title">
+            <i class="pi pi-check-square"></i> 2nd Period - MS - Mathematics
+        </h2>
+        <div class="btn-container">
+            <button pButton label="Merge Sessions" class="merge-session-button" style="margin: 10px 0;"
+                (click)="openMergeDialog()"></button>
+            <button pButton label="New Session" icon="pi pi-plus" class="new-session-button"
+                style="margin: 10px 0;"></button>
+        </div>
+
+    </div>
+
+    <p-table [value]="students" class="report-table" [responsiveLayout]="'scroll'">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Student Email</th>
+                <th *ngFor="let session of sessions">{{ session.title }}</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-student>
+            <tr>
+                <td>{{ student.email }}</td>
+                <td *ngFor="let session of sessions">
+                    <span *ngIf="student[session.title] !== 'Absent'">
+                        <button pButton type="button" label="{{ student[session.title] }}"
+                            (click)="openDialogByEmail(session, student.email)" icon="pi pi-info-circle"
+                            class="p-button-text">
+                        </button>
+                    </span>
+                    <span *ngIf="student[session.title] === 'Absent'">Absent</span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog [(visible)]="displayDialog" header="Result Details" [modal]="true" [closable]="true" width="300">
+        <div *ngIf="selectedResult">
+            <p><strong>ID:</strong> {{ selectedResult.id }}</p>
+            <p><strong>Email:</strong> {{ selectedResult.email }}</p>
+            <app-quiz1></app-quiz1>
+        </div>
+    </p-dialog>
+</div>

@@ -1,0 +1,303 @@
+<div class="general">
+    <p-splitter 
+    [panelSizes]="[25, 55 ,20]"
+    [minSizes]="[15,50,15]"
+    styleClass="mb-5">
+    <ng-template pTemplate>
+        <div class="col flex align-items-center justify-content-center container-split">
+            <h1>Questions</h1>
+            <p-toolbar class="toolbar">
+                
+                <p-dropdown  class="p-toolbar-group-center dropdown-types"
+                    [options]="types" 
+                    [(ngModel)]="selectedType" 
+                    optionLabel="label" 
+                    [showClear]="true" 
+                    placeholder="Select a Type" />
+            </p-toolbar>
+            <ul class="question-container">
+                <app-quiz1 class="question-template" [mode]="'view'" pDraggable
+                     (onDragStart)="dragStart('Quiz')" (onDragEnd)="dragEnd()"></app-quiz1>
+
+          <app-qr-question class="question-template" [mode]="'view'" pDraggable
+                     (onDragStart)="dragStart('Q/A')" (onDragEnd)="dragEnd()"></app-qr-question>
+
+          
+            </ul>
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="col flex align-items-center justify-content-center container-split">
+            <div class="header-container">
+                <div class="info-container">
+                    <div class="name-container">
+                        <div class="name">Challenge: </div>
+                        <h2 *ngIf="!isEditingChallengeName" (click)="startEditingName()">{{ challengeName }}</h2>
+                        <p-iconField iconPosition="left" *ngIf="isEditingChallengeName">
+                            <p-inputIcon styleClass="pi pi-save" class="save-title" (click)="saveChallengeName()"/>
+                            <input 
+                                pInputText
+                                [(ngModel)]="challengeName" 
+                                (blur)="saveChallengeName()" 
+                                (keyup.enter)="saveChallengeName()"
+                                class="editable-title"
+                                />
+                        </p-iconField>
+                    </div>
+                    <div class="description-container">
+                        <div class="desc">Description: </div>
+                        <p *ngIf="!isEditingChallengeDesc" (click)="startEditingDesc()">{{ challengeDesc }}</p>
+                        <textarea pInputText
+                            *ngIf="isEditingChallengeDesc"
+                            [(ngModel)]="challengeDesc" 
+                            (blur)="saveChallengeDesc()" 
+                            (keyup.enter)="saveChallengeDesc()"
+                            class="editable-desc"></textarea>
+                    </div>   
+                </div>
+                
+                <div class="button-container">
+                    <p-button 
+                        label="Save" 
+                        class="save-btn"
+                        [icon]="isChanged ? 'pi pi-hourglass' : 'pi pi-check'" 
+                        (onClick)="Save($event)" />
+                    <p-button 
+                        label="View" 
+                        class="view-btn"
+                        severity="success"
+                        icon="pi pi-eye" 
+                        (onClick)="ActivateView()" />
+                    <p-button 
+                        label="Publish" 
+                        class="publish-btn"
+                        severity="danger"
+                        icon="pi pi-upload" 
+                        (onClick)="Publish($event)" />
+                    
+                    <p-confirmDialog class="publish-dialogue">
+                        <ng-template pTemplate="message" let-message>
+                            <div class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border">
+                                <div class="flex flex-column align-items-center w-full gap-3 border-bottom-1 surface-border message-container">
+                                    <i class="pi pi-exclamation-circle text-6xl text-primary-500"></i>
+                                    <p>{{message.message}}</p>
+                                </div>
+                                <p-messages [(value)]="messages" [enableService]="false" />
+                            </div>
+                        </ng-template>
+                    </p-confirmDialog>
+
+    
+                </div>
+            </div>
+            
+            <div class="card">
+                
+                  <div class="stepper-container">
+                    <div *ngFor="let step of steps; let i = index" class="step" 
+                    [ngClass]="{ active: currentStep === i, completed: currentStep > i }">
+                      <!-- Step Circle and Title -->
+                      <div class="step-item">
+                        <div class="circle" (click)="setStep(i)">
+                          <span>{{ i + 1 }}</span>
+                          <div 
+                            class="delete-icon" 
+                            *ngIf="steps.length > 1" 
+                            (click)="deleteStep(i, $event)">
+                            <i class="pi pi-trash"></i>
+                           </div>
+                        </div>
+                        <div class="content-container">
+                            <div class="step-content" [ngClass]="{ 'active-content': currentStep === i }">
+                                <h3 class="'title" *ngIf="editingTitleIndex !== i" (click)="editTitle(i)">
+                                    {{ step.title }} 
+                                    <!-- Display a yellow span if the question has empty options -->
+                                    <span *ngIf="getInvalidQuestion(step)" style="color: #FF8C00;font-size: 16px;font-weight: 300; margin-left: 10px;">
+                                        {{ getInvalidQuestion(step) }}
+                                      </span>
+                                </h3>
+                                <div *ngIf="editingTitleIndex === i" class="title">
+                                    <p-iconField iconPosition="left">
+                                        <p-inputIcon styleClass="pi pi-save" class="save-title" (click)="saveTitle(i)"/>
+                                        <input 
+                                            pInputText
+                                            [(ngModel)]="editingTitle" 
+                                            (blur)="saveTitle(i)" 
+                                            (keyup.enter)="saveTitle(i)"
+                                            class="editable-title"
+                                            />
+                                    </p-iconField>
+                                    
+                                  </div>
+                                
+                                <!-- Step Content with defined width and height -->
+                                <div class="p-2 border-1 surface-border border-round w-15rem dropZone" 
+                                    pDroppable (onDrop)="drop(i)">
+                                    <div class="header-comment">
+                                        <div class="comment surface-border border-bottom-1">Drop A Question Here</div>
+                                    </div>
+
+                                    <div *ngIf="step.question" [ngSwitch]="step.question.type">
+                                      <!-- Creation Mode -->
+                                      <ng-container *ngSwitchCase="'Quiz'">
+                                          <app-quiz1 
+                                              class="question-template" 
+                                              [number]="i" 
+                                              [mode]="'creation'" 
+                                              [questionData]="step.question"
+                                              (questionChange)="onQuestionChange($event, i)">
+                                          </app-quiz1>
+                                      </ng-container>
+                                  
+                                      <ng-container *ngSwitchCase="'Q/A'">
+                                          <app-qr-question 
+                                              class="question-template" 
+                                              [number]="i" 
+                                              [mode]="'creation'" 
+                                              [questionData]="step.question"
+                                              (questionChange)="onQuestionChange($event, i)">>
+                                          </app-qr-question>
+                                      </ng-container>
+                                  
+                                      <!-- Add more question types as needed -->
+                                  </div>
+                                  
+                                  <div class="preview-container" [ngClass]="selectedTemplate" *ngIf="step.question">
+                                      <hr style="margin-bottom: -1px;">
+                                      <div class="header-comment">
+                                          <div class="comment surface-border border-bottom-1">Preview the Display</div>
+                                      </div>
+                                  
+                                      <div [ngSwitch]="step.question.type" class="prev-container">
+                                          <!-- Ask Mode for Quiz -->
+                                          <ng-container *ngSwitchCase="'Quiz'">
+                                              <app-quiz1 
+                                                  [number]="i" 
+                                                  [mode]="'ask'" 
+                                                  [template]="selectedTemplate"
+                                                  [questionData]="step.question">
+                                              </app-quiz1>
+                                          </ng-container>
+                                  
+                                          <!-- Ask Mode for Q/A -->
+                                          <ng-container *ngSwitchCase="'Q/A'">
+                                              <app-qr-question 
+                                                  [mode]="'ask'" 
+                                                  [template]="selectedTemplate"
+                                                  [questionData]="step.question">
+                                              </app-qr-question>
+                                          </ng-container>
+                                  
+                                          <!-- Add more question types as needed -->
+                                      </div>
+                                  </div>
+                                  
+                                    
+                                    <!--
+                                    <app-quiz1 *ngIf="step.question" class="question-template" 
+                                               [number]="i" 
+                                               [mode]="'creation'" 
+                                               [type]="step.question.type" 
+                                               (questionChange)="onQuestionChange($event,i)">
+                                    </app-quiz1>
+                                    
+                                    <div class="preview-container">
+                                        <hr *ngIf="step.question"style="margin-bottom: -1px;">
+                                        <div *ngIf="step.question" class="header-comment">
+                                            <div class="comment surface-border border-bottom-1">Preview the Display</div>
+                                        </div>
+                                        <app-quiz1 *ngIf="step.question"
+                                                [number]="i" 
+                                                [mode]="'ask'" 
+                                                [type]="step.question.type" 
+                                                [questionData]="step.question">
+                                        </app-quiz1>
+                                    </div>-->
+                                    </div>
+                                    
+                                    
+                              </div>
+                              <!-- Navigation Buttons below the content -->
+                              <div *ngIf="currentStep === i" class="step-buttons">
+                                  <p-button *ngIf="i > 0" (click)="prevStep()">Previous</p-button>
+                                  <p-button *ngIf="i < steps.length - 1" (click)="nextStep()">Next</p-button>
+                                  <p-button (click)="addStep(i)">Add Step</p-button>
+                              </div>
+                        </div>
+                        
+                        </div>
+                  
+                      
+                    </div>
+                  </div>
+                  
+                  
+                  
+                  
+            </div>
+        </div>
+    </ng-template>
+    <ng-template pTemplate>
+        <div class="col flex align-items-center justify-content-center container-split">
+            <h1>Templates</h1>
+            <div class="template-container">
+                <!-- Default Template Box -->
+                <div 
+                class="template-box default-template" 
+                [ngClass]="{'active': selectedTemplate === 'default-template'}" 
+                (click)="selectTemplate('default-template')">
+                <span class="template-name">Default Template</span>
+                </div>
+
+                <!-- Sleek Dark Template Box -->
+                <div 
+                class="template-box sleek-dark-template" 
+                [ngClass]="{'active': selectedTemplate === 'sleek-dark-template'}" 
+                (click)="selectTemplate('sleek-dark-template')">
+                <span class="template-name">Sleek Dark Template</span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-splitter>
+
+<p-dialog 
+    header="" 
+    [(visible)]="viewActivated" 
+    [modal]="true" 
+    [style]="{ width: '25rem' }"
+    class="view-container"
+    [ngClass]="selectedTemplate"
+    [closable]="true">
+    <h2 class="challenge-name">{{ challengeName }}</h2>
+
+    <!-- Loop through each question step and display based on type -->
+    <div *ngFor="let step of steps; let i = index">
+        <div *ngIf="step.question" [ngSwitch]="step.question.type">
+            
+            <!-- Ask Mode for Quiz -->
+            <ng-container *ngSwitchCase="'Quiz'">
+                <app-quiz1 
+                    [number]="i" 
+                    [mode]="'ask'" 
+                    [template]="selectedTemplate"
+                    [questionData]="step.question">
+                </app-quiz1>
+            </ng-container>
+
+            <!-- Ask Mode for Q/A -->
+            <ng-container *ngSwitchCase="'Q/A'">
+                <app-qr-question 
+                    [mode]="'ask'" 
+                    [template]="selectedTemplate"
+                    [questionData]="step.question">
+                </app-qr-question>
+            </ng-container>
+
+            <!-- Add more question types as needed -->
+        </div>
+    </div>
+
+</p-dialog>
+
+</div>

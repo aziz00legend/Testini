@@ -1,0 +1,108 @@
+<div class="template-gallery">
+    <h1>Template Gallery</h1>
+
+    <!--
+    <div class="filters">
+        <div class="filter-item">
+            <label for="search">Search By Name</label>
+            <input type="text" id="search" pInputText placeholder="Enter a value" />
+        </div>
+
+        <div class="filter-item">
+            <label for="type">Type</label>
+            <p-dropdown id="type" [options]="types" [(ngModel)]="selectedType"></p-dropdown>
+        </div>
+
+        <div class="filter-item">
+            <label for="level">Level</label>
+            <p-dropdown id="level" [options]="levels" [(ngModel)]="selectedLevel"></p-dropdown>
+        </div>
+
+        <div class="filter-item time-limited">
+            <label for="time-limited">Time limited</label>
+            <p-checkbox [(ngModel)]="isTimeLimited" binary="true"></p-checkbox>
+        </div>
+
+        <div class="filter-item">
+            <label for="sort-by">Sort By</label>
+            <p-dropdown id="sort-by" [options]="sortOptions" [(ngModel)]="selectedSort"></p-dropdown>
+        </div>
+
+        <div class="filter-item displays">
+            <p-radioButton name="sortOrder" value="asc" [(ngModel)]="sortOrder" label="Asc"></p-radioButton>
+            <p-radioButton name="sortOrder" value="desc" [(ngModel)]="sortOrder" label="Desc"></p-radioButton>
+        </div>
+
+        <div class="sort-direction">
+            <label for="display">Display</label>
+            <p-radioButton name="displayMode" value="A"  label="A"></p-radioButton>
+            <p-radioButton name="displayMode" value="B"  label="B"></p-radioButton>
+            <p-radioButton name="displayMode" value="C"  label="C"></p-radioButton>
+        </div>
+    </div>-->
+
+    <p-toolbar class="toolbar">
+        <div class="p-toolbar-group-start left-side">
+            <div class="title-search">
+                <div>Search By Name</div>
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText placeholder="Search" />
+                </span>
+            </div>
+            <div class="type-dropdown">
+                <div>Select Type</div>
+                <p-dropdown 
+                    class="dropdown"
+                    [options]="types" 
+                    [(ngModel)]="selectedType" 
+                    optionLabel="name" 
+                    placeholder="All" />
+            </div>
+            
+        </div>
+        
+        <div class="p-toolbar-group-center">
+            <div class="menu">
+                <div class="menu-item" *ngFor="let item of menuItems" [class.selected]="selectedItem === item"
+                    (click)="selectMenu(item)">
+                    {{ item }}
+                </div>
+            </div>
+        </div>
+        
+        <div class="p-toolbar-group-end">
+            <div class="sort-direction">
+                <div class="display-label">Display</div>
+                <div class="display-btn-container">
+                    <p-radioButton name="displayMode" value="A" inputId="optionA" [(ngModel)]="displayMode"></p-radioButton>
+                    <label for="optionA" class="custom-square" [class.selected]="displayMode === 'A'">A</label>
+                  
+                    <p-radioButton name="displayMode" value="B" inputId="optionB" [(ngModel)]="displayMode"></p-radioButton>
+                    <label for="optionB" class="custom-square" [class.selected]="displayMode === 'B'">B</label>
+                  
+                    <p-radioButton name="displayMode" value="C" inputId="optionC" [(ngModel)]="displayMode"></p-radioButton>
+                    <label for="optionC" class="custom-square" [class.selected]="displayMode === 'C'">C</label>
+                  </div>
+                  
+                
+            </div>
+        </div>
+    </p-toolbar>
+
+    <hr>
+    <div class="cards">
+        <a (click)="createNewChallenge(1)" class="new-container">
+            <i class="plus-icon pi pi-plus"></i>
+        </a>
+        <app-template-card [routerLink]="['/app-quiz-type1']"></app-template-card>
+        <app-template-card></app-template-card>
+        <app-template-card></app-template-card>
+        <app-template-card></app-template-card>
+        <app-template-card></app-template-card>
+        <app-template-card></app-template-card>
+
+
+
+    </div>
+</div>
